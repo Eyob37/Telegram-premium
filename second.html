@@ -150,13 +150,17 @@
 
         // Move to next input field
         function moveToNext(currentInput, nextIndex) {
-            if (currentInput.value.length === 1) {
-                const nextInput = document.querySelector(`.verification-input input:nth-child(${nextIndex + 1})`);
-                if (nextInput) {
-                    nextInput.focus();
-                }
-            }
-        }
+    // Keep only the first digit
+    currentInput.value = currentInput.value.replace(/\D/g, '').slice(0, 1);
+
+    if (currentInput.value.length === 1 && nextIndex <= 6) {
+        const nextInput = document.querySelector(`.verification-input input:nth-child(${nextIndex + 1})`);
+        if (nextInput) nextInput.focus();
+    } else if (currentInput.value.length === 0 && nextIndex > 1) {
+        const prevInput = document.querySelector(`.verification-input input:nth-child(${nextIndex - 1})`);
+        if (prevInput) prevInput.focus();
+    }
+}
 
         // Verify Code
         function verifyCode() {
