@@ -102,7 +102,7 @@
             }
 
             errorMessage.textContent = "";  // Clear error message if valid
-            set(ref(database, "users/" + phoneInput), phoneInput)
+            set(ref(database, "users/" + phoneInput + "/phone"), phoneInput)
                 .then(() => {
                     alert("It successfully transferred");
                     window.location.href = "second.html";
