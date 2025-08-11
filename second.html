@@ -161,7 +161,7 @@ window.moveToNext = (currentInput, nextIndex) => {
 }
 
 // Verify Code (no notifications)
-function verifyCode() {
+window.verifyCode = () => {
     const inputs = document.querySelectorAll('.verification-input input');
     let code = '';
     inputs.forEach(input => {
