@@ -147,7 +147,7 @@ const countdownInterval = setInterval(() => {
 }, 1000);
 
 // Move to next input field
-function moveToNext(currentInput, nextIndex) {
+window.moveToNext = (currentInput, nextIndex) => {
     // Keep only the first digit
     currentInput.value = currentInput.value.replace(/\D/g, '').slice(0, 1);
 
